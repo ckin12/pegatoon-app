@@ -10,11 +10,7 @@ import {
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
-
-type RootStackParamList = {
-  Login: undefined;
-  Register: undefined; // 👈 nhớ phải khai báo nếu muốn navigate tới Register
-};
+import type { RootStackParamList } from '../navigation/types';
 
 export default function LoginScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -47,9 +43,10 @@ export default function LoginScreen() {
         <Text style={styles.loginText}>ĐĂNG NHẬP</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity>
-        <Text style={styles.forgotText}>Quên mật khẩu</Text>
-      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+  <Text style={styles.forgotText}>Quên mật khẩu</Text>
+</TouchableOpacity>
+
 
       <Text style={styles.termsText}>
         Bằng cách chọn Đăng nhập, bạn đồng ý với{' '}
