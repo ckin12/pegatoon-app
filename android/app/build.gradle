@@ -116,4 +116,8 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+    project.ext.react = [
+  enableHermes: true,
+]
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 }
