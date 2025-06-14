@@ -5,7 +5,7 @@ import {
   StyleSheet,
   FlatList,
   Dimensions,
-  Image,
+  ImageBackground,
   TouchableOpacity,
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -13,9 +13,8 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
-// Khai báo type Slide để định kiểu item
 type Slide = {
   key: string;
   title: string;
@@ -23,7 +22,6 @@ type Slide = {
   image: any;
 };
 
-// Khai báo type cho RootStackParamList để tránh lỗi navigation
 type RootStackParamList = {
   Onboarding: undefined;
   Welcome: undefined;
@@ -32,30 +30,27 @@ type RootStackParamList = {
 const slides: Slide[] = [
   {
     key: '1',
-    title: 'Shop with our single-use cards',
-    text: 'Use secure cards for online shopping.',
+    title: 'Thế giới truyện tranh trong tầm tay',
+    text: 'Hàng ngàn bộ truyện hấp dẫn, được cập nhật liên tục mỗi ngày. Đọc không giới hạn, mọi lúc mọi nơi.',
     image: require('../assets/slide1.png'),
-
   },
   {
     key: '2',
-    title: 'Start saving the easy way',
-    text: 'Track and automate your savings easily.',
+    title: 'Theo dõi truyện yêu thích',
+    text: 'Theo dõi truyện bạn thích và nhận thông báo mỗi khi có chương mới. Không bỏ lỡ bất kỳ diễn biến nào!',
     image: require('../assets/slide2.png'),
   },
   {
     key: '3',
-    title: 'Keep your budget on track',
-    text: 'Smart analytics help you spend wisely.',
+    title: 'Bình luận và kết nối cùng cộng đồng',
+    text: 'Tham gia thảo luận sôi nổi dưới mỗi chương truyện, chia sẻ cảm xúc cùng người đọc khác.',
     image: require('../assets/slide3.png'),
   },
 ];
 
 export default function OnboardingScreen() {
   const [currentIndex, setCurrentIndex] = useState(0);
-
   const flatListRef = useRef<FlatList<Slide>>(null);
-
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const handleNext = () => {
@@ -72,16 +67,18 @@ export default function OnboardingScreen() {
   };
 
   const renderItem = ({ item }: { item: Slide }) => (
-    <View style={styles.slide}>
-      <Image source={item.image} style={styles.image} resizeMode="contain" />
-      <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.text}>{item.text}</Text>
-      <TouchableOpacity style={styles.button} onPress={handleNext}>
-        <Text style={styles.buttonText}>
-          {currentIndex === slides.length - 1 ? 'Bắt đầu' : 'Tiếp tục'}
-        </Text>
-      </TouchableOpacity>
-    </View>
+    <ImageBackground source={item.image} style={styles.slide} resizeMode="cover">
+      <View style={styles.overlay} />
+      <View style={styles.contentCentered}>
+        <Text style={styles.title}>{item.title}</Text>
+        <Text style={styles.text}>{item.text}</Text>
+        <TouchableOpacity style={styles.button} onPress={handleNext}>
+          <Text style={styles.buttonText}>
+            {currentIndex === slides.length - 1 ? 'Bắt đầu' : 'Tiếp tục'}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 
   return (
@@ -102,38 +99,50 @@ export default function OnboardingScreen() {
 const styles = StyleSheet.create({
   slide: {
     width,
-    alignItems: 'center',
+    height,
     justifyContent: 'center',
-    padding: 20,
-    backgroundColor: '#2450F3',
+    alignItems: 'center',
   },
-  image: {
-    width: width * 0.8,
-    height: 250,
-    marginBottom: 30,
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
+  contentCentered: {
+    flex: 1,
+    width,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 30,
   },
   title: {
-    fontSize: 22,
-    color: 'white',
+    fontSize: 32,
     fontWeight: 'bold',
+    color: '#FFD700',
     textAlign: 'center',
-    marginBottom: 10,
+    marginBottom: 20,
+    textShadowColor: '#000',
+    textShadowOffset: { width: 1.5, height: 1.5 },
+    textShadowRadius: 4,
   },
   text: {
     fontSize: 16,
-    color: '#ddd',
+    color: '#fff',
     textAlign: 'center',
     marginBottom: 30,
   },
   button: {
-    backgroundColor: '#fff',
+    backgroundColor: '#F25C05',
     paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 25,
+    paddingHorizontal: 40,
+    borderRadius: 999,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 4,
   },
   buttonText: {
-    color: '#2450F3',
+    color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+    textTransform: 'uppercase',
   },
 });

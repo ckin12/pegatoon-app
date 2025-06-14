@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Image
 } from 'react-native';
 // @ts-ignore
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -16,7 +17,12 @@ export default function LoginScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   
   return (
+    
     <View style={styles.container}>
+      <Image
+  source={require('../assets/logo.png')} 
+  style={styles.logo}
+/>
       <Text style={styles.title}>Đăng nhập</Text>
       <Text style={styles.subtitle}>Bạn có thể đăng nhập với tài khoản Pegatoon.</Text>
 
@@ -65,7 +71,7 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 60,
+    paddingTop: 1,
     paddingHorizontal: 24,
     flex: 1,
     backgroundColor: '#fff',
@@ -138,4 +144,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 14,
   },
+  logo: {
+    width: 120,
+    height: 120,
+    marginBottom: 20,
+    resizeMode: 'contain',
+  },
+  
 });
